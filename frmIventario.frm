@@ -351,9 +351,7 @@ Private Sub mnuExportar_Click()
     ExportarCSV
 End Sub
 
-Private Sub mnuInventario_Click()
-    frmListadoProductos.Show
-End Sub
+
 
 Private Sub mnuPegar_Click()
     If TypeOf ActiveControl Is TextBox Then
@@ -398,6 +396,14 @@ Private Sub txtPrecioVenta_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub btnInventario_Click()
+    mostrarInvetario
+End Sub
+
+Private Sub mnuInventario_Click()
+    mostrarInvetario
+End Sub
+
+Private Sub mostrarInvetario()
     If Inventario.Count = 0 Then
         MsgBox "No hay productos registrados.", vbExclamation, "Inventario vacío"
     Else
@@ -409,5 +415,8 @@ Private Sub btnInventario_Click()
         frmListadoProductos.Show
     End If
 End Sub
+
+
+
 
 
