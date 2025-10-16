@@ -17,9 +17,9 @@ Begin VB.Form formus
       Top             =   240
       Width           =   4935
       Begin VB.CommandButton btnInventario 
-         Caption         =   "Ver inventario"
+         Caption         =   "Ver &Inventario"
          Height          =   495
-         Left            =   1200
+         Left            =   1440
          TabIndex        =   14
          Top             =   5280
          Width           =   1815
@@ -27,7 +27,7 @@ Begin VB.Form formus
       Begin VB.CommandButton btnLimpiar 
          Caption         =   "Limpiar"
          Height          =   375
-         Left            =   240
+         Left            =   480
          TabIndex        =   13
          Top             =   4560
          Width           =   1575
@@ -47,23 +47,23 @@ Begin VB.Form formus
          Left            =   1560
          List            =   "frmIventario.frx":0002
          Style           =   2  'Dropdown List
-         TabIndex        =   11
+         TabIndex        =   4
          Top             =   2760
          Width           =   2895
       End
       Begin VB.CommandButton btnRegistrar 
          Caption         =   "&Guardar"
-         Height          =   495
-         Left            =   2400
-         TabIndex        =   10
-         Top             =   4440
+         Height          =   375
+         Left            =   2880
+         TabIndex        =   11
+         Top             =   4560
          Width           =   1575
       End
       Begin VB.CheckBox chkVisible 
          Caption         =   "Visible a la venta"
          Height          =   375
          Left            =   360
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   3960
          Width           =   1575
       End
@@ -71,7 +71,7 @@ Begin VB.Form formus
          Caption         =   "Venta a granel"
          Height          =   495
          Left            =   2160
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   3360
          Width           =   1695
       End
@@ -79,7 +79,7 @@ Begin VB.Form formus
          Caption         =   "Venta individual"
          Height          =   495
          Left            =   360
-         TabIndex        =   7
+         TabIndex        =   5
          Top             =   3360
          Width           =   1815
       End
@@ -87,7 +87,7 @@ Begin VB.Form formus
          Alignment       =   2  'Center
          Height          =   615
          Left            =   1800
-         TabIndex        =   6
+         TabIndex        =   3
          Top             =   1920
          Width           =   2655
       End
@@ -95,7 +95,7 @@ Begin VB.Form formus
          Alignment       =   2  'Center
          Height          =   495
          Left            =   1800
-         TabIndex        =   4
+         TabIndex        =   2
          Top             =   1200
          Width           =   2655
       End
@@ -112,13 +112,13 @@ Begin VB.Form formus
          EndProperty
          Height          =   615
          Left            =   1800
-         TabIndex        =   2
+         TabIndex        =   1
          Top             =   360
          Width           =   2655
       End
       Begin VB.Line Line1 
          X1              =   240
-         X2              =   3840
+         X2              =   4680
          Y1              =   5160
          Y2              =   5160
       End
@@ -135,7 +135,7 @@ Begin VB.Form formus
          Caption         =   "Cantidad"
          Height          =   375
          Left            =   240
-         TabIndex        =   5
+         TabIndex        =   10
          Top             =   2040
          Width           =   1215
       End
@@ -144,7 +144,7 @@ Begin VB.Form formus
          Caption         =   "Precio de venta"
          Height          =   495
          Left            =   240
-         TabIndex        =   3
+         TabIndex        =   9
          Top             =   1200
          Width           =   1335
       End
@@ -163,16 +163,76 @@ Begin VB.Form formus
          EndProperty
          Height          =   360
          Left            =   240
-         TabIndex        =   1
+         TabIndex        =   8
          Top             =   480
          Width           =   1140
       End
    End
    Begin VB.Menu mnuProductos 
-      Caption         =   "&Registro de productos"
+      Caption         =   "&Archivo"
       Index           =   0
       NegotiatePosition=   1  'Left
       WindowList      =   -1  'True
+      Begin VB.Menu mnuNuevo 
+         Caption         =   "&Nuevo"
+         Shortcut        =   ^N
+      End
+      Begin VB.Menu mnuGuardar 
+         Caption         =   "&Guardar"
+         Shortcut        =   ^S
+      End
+      Begin VB.Menu mnuExportar 
+         Caption         =   "E&xportar CSV"
+         Shortcut        =   ^E
+      End
+      Begin VB.Menu mnuSalir 
+         Caption         =   "&Salir"
+         Shortcut        =   ^Q
+      End
+   End
+   Begin VB.Menu mnuEditar 
+      Caption         =   "&Editar"
+      NegotiatePosition=   1  'Left
+      Begin VB.Menu mnuNuevarCategoria 
+         Caption         =   "&Agregar Categoria"
+      End
+      Begin VB.Menu mnuCopiar 
+         Caption         =   "&Copiar"
+         Shortcut        =   ^C
+      End
+      Begin VB.Menu mnuPegar 
+         Caption         =   "&Pegar"
+         Shortcut        =   ^V
+      End
+      Begin VB.Menu mnuLimpiar 
+         Caption         =   "&Limpiar"
+      End
+   End
+   Begin VB.Menu mnuVer 
+      Caption         =   "&Ver"
+      NegotiatePosition=   1  'Left
+      Begin VB.Menu mnuInventario 
+         Caption         =   "Ver Inventario"
+         Shortcut        =   {F7}
+      End
+   End
+   Begin VB.Menu mnuAyuda 
+      Caption         =   "&Ayuda"
+      NegotiatePosition=   1  'Left
+      Begin VB.Menu mnuAcerca 
+         Caption         =   "&Acerca de..."
+         Shortcut        =   {F1}
+      End
+   End
+   Begin VB.Menu mnuContext 
+      Caption         =   "Menu Contexto"
+      Visible         =   0   'False
+      Begin VB.Menu mnuCtxCopiar 
+         Caption         =   "&Copiar"
+      End
+      Begin VB.Menu mnuCtxPegar 
+         Caption         =   "&Pegar"
+      End
    End
 End
 Attribute VB_Name = "formus"
@@ -181,11 +241,11 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim inventario As Collection
+Dim Inventario As Collection
 
 Private Sub Form_Load()
 
-    Set inventario = New Collection
+    Set Inventario = New Collection
 
     cboCategoria.AddItem "Embutidos"
     cboCategoria.AddItem "Lácteos"
@@ -195,7 +255,6 @@ Private Sub Form_Load()
 
     chkVisible.Value = 1
 End Sub
-
 Private Sub btnLimpiar_Click()
     funcionLimpiar
 End Sub
@@ -208,20 +267,98 @@ Private Sub btnRegistrar_Click()
     Dim tipoVenta As String
     Dim visible As Boolean
     Dim registro As String
-
+    
+    producto = Trim$(txtProducto.Text)
+        
+    If Len(producto) = 0 Then
+        MsgBox "Escribe el nombre del producto. ", vbExclamation
+        txtProducto.SetFocus
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(txtPrecioVenta.Text) Or Not IsNumeric(txtCantidad.Text) Then
+        MsgBox "Precio o cantidad invalidos", vbExclamation
+        Exit Sub
+    End If
+    
     producto = txtProducto.Text
     precio = Val(txtPrecioVenta.Text)
     cantidad = Val(txtCantidad.Text)
     categoria = cboCategoria.Text
     tipoVenta = IIf(optIndividual.Value, "Individual", "Granel")
     visible = (chkVisible.Value = 1)
-
-    registro = producto & " | $" & precio & " | Cant: " & cantidad & " | " & categoria & " | " & tipoVenta & " | " & IIf(visible, "Visible", "Oculto")
-    inventario.Add registro
-    MsgBox "Producto guardado correctamente.", vbInformation
     
+    ' Formato par CSV para exportar
+    registro = producto & "," & CStr(precio) & "," & CStr(cantidad) & "," & _
+    categoria & "," & tipoVenta & "," & IIf(visible, "Visible", "Oculto")
+    
+    Inventario.Add registro
+    MsgBox "Producto guardado correctamente", vbInformation
+       
+    'Limpiamos formulario
     funcionLimpiar
+       
+End Sub
 
+Private Sub ExportarCSV()
+    On Error GoTo cancelado
+    If Inventario Is Nothing Or Inventario.Count = 0 Then
+        MsgBox "No Hay produyctos para exportar vv.", vbExclamation
+        Exit Sub
+    End If
+    
+    Dim cdl As Object
+    Set cdl = CreateObject("MSComDlg.CommonDialog")
+        
+    With cdl
+        .CancelError = True
+        .DialogTitle = "Exportar inventario a CSV"
+        .Filter = "CSV (*.csv)|*.csv"
+        .FileName = "Reporte_Inventario.csv"
+        .ShowSave
+    End With
+    
+    Dim ruta As String, it As Variant
+    ruta = cdl.FileName
+    Open ruta For Output As #1
+    Print #1, "Producto,Precio,Cantidad,Categoria,TipoVenta,Visibilidad"
+    For Each it In Inventario
+        Print #1, it
+    Next
+    
+    Close #1
+    MsgBox "Tu archivo fue exportado en: " & ruta, vbInformation
+cancelado:
+    If Err.Number = 32755 Then Exit Sub
+        MsgBox "Error: No puedes sobreescribir el archivo " & Err.Description, vbCritical
+End Sub
+
+Private Sub fraProductos_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Button = vbRightButton Then
+        PopupMenu mnuContext
+    End If
+    
+End Sub
+
+Private Sub mnuCopiar_Click()
+    If TypeOf ActiveControl Is TextBox Then
+        Clipboard.Clear
+        Clipboard.SetText ActiveControl.Text
+    End If
+End Sub
+
+Private Sub mnuExportar_Click()
+    ExportarCSV
+End Sub
+
+Private Sub mnuInventario_Click()
+    frmListadoProductos.Show
+End Sub
+
+Private Sub mnuPegar_Click()
+    If TypeOf ActiveControl Is TextBox Then
+        ActiveControl.Text = Clipboard.GetText
+    End If
 End Sub
 
 Private Sub txtCantidad_KeyPress(KeyAscii As Integer)
@@ -261,14 +398,16 @@ Private Sub txtPrecioVenta_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub btnInventario_Click()
-    If inventario.Count = 0 Then
+    If Inventario.Count = 0 Then
         MsgBox "No hay productos registrados.", vbExclamation, "Inventario vacío"
     Else
         frmListadoProductos.lstRegistrados.Clear
         Dim item As Variant
-        For Each item In inventario
+        For Each item In Inventario
             frmListadoProductos.lstRegistrados.AddItem item
         Next
         frmListadoProductos.Show
     End If
 End Sub
+
+
