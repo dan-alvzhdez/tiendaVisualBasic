@@ -9,7 +9,7 @@ Begin VB.Form frmAgenda
    ScaleHeight     =   5835
    ScaleWidth      =   9630
    StartUpPosition =   3  'Windows Default
-   Begin VB.TextBox txtTelefonoTres 
+   Begin VB.TextBox txtTelefono 
       Height          =   375
       Index           =   2
       Left            =   6480
@@ -17,7 +17,7 @@ Begin VB.Form frmAgenda
       Top             =   1560
       Width           =   2055
    End
-   Begin VB.TextBox txtTelefonoDos 
+   Begin VB.TextBox txtTelefono 
       Height          =   375
       Index           =   1
       Left            =   6480
@@ -57,7 +57,7 @@ Begin VB.Form frmAgenda
          TabIndex        =   9
          Top             =   240
          Width           =   3735
-         Begin VB.TextBox txtTelefonoUno 
+         Begin VB.TextBox txtTelefono 
             Height          =   375
             Index           =   0
             Left            =   1200
@@ -84,7 +84,6 @@ Begin VB.Form frmAgenda
       Begin VB.CommandButton btnAgregar 
          Caption         =   "&Agregar"
          Height          =   375
-         Index           =   0
          Left            =   5160
          TabIndex        =   5
          Top             =   5040
@@ -128,6 +127,46 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub Label1_Click()
+
+Private Sub btnAgregar_Click()
+
+    On Error GoTo error:
+
+    Dim tel() As String
+    Dim i As Integer, l As Integer
+    Dim c As cContacto
+    Dim msg As String
+    
+    ReDim tel(0)
+    l = -1
+    
+    For i = 0 To txtTelefono.Count - 1
+        If Len(Trim$(txtTelefono(i).Text)) > 0 Then
+            l = l + 1
+            If l = 0 Then
+                ReDim tel(0)
+            Else
+                ReDim Preserve tel(0 To l)
+            End If
+            tel(l) = txtTelefono(i).Text
+        End If
+    Next
+    
+    Set c = New cContacto
+    c.Init txtNombre.Text, txtEmail.Text, tel
+    
+    Contacts.Add c
+    lstAgenda.AddItem c.nombre & " | " & c.email & " | " & IIf(l >= 0, Join(tel, " / "), "-")
+    MsgBox "Se Agrego Correctamente", vbInformation
+    'Exit Sub
+error:
+    MsgBox "Error al Agregar (" & Err.Number & "): " & Err.Description, vbCritical, APP_NAME
+    
+End Sub
+
+Private Sub Form_Load()
+
+    Set Contacts = New Collection
 
 End Sub
+
