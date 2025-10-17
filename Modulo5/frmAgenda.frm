@@ -127,46 +127,110 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Option Explicit
+
+Const APP_NAME = "Agenda"
+
+Private Sub Form_Load()
+    If Contacts Is Nothing Then Set Contacts = New Collection
+    txtNombre.Text = ""
+    txtEmail.Text = ""
+    txtTelefono(0).Text = ""
+    txtTelefono(1).Text = ""
+    txtTelefono(2).Text = ""
+End Sub
 
 Private Sub btnAgregar_Click()
-
-    On Error GoTo error:
+    On Error GoTo EH
 
     Dim tel() As String
     Dim i As Integer, l As Integer
     Dim c As cContacto
     Dim msg As String
-    
+
     ReDim tel(0)
     l = -1
-    
-    For i = 0 To txtTelefono.Count - 1
+    For i = 0 To 2
         If Len(Trim$(txtTelefono(i).Text)) > 0 Then
             l = l + 1
             If l = 0 Then
                 ReDim tel(0)
             Else
-                ReDim Preserve tel(0 To l)
+                ReDim Preserve tel(l)
             End If
             tel(l) = txtTelefono(i).Text
         End If
     Next
-    
+
     Set c = New cContacto
-    c.Init txtNombre.Text, txtEmail.Text, tel
-    
+    Call c.Init(txtNombre.Text, txtEmail.Text, tel)
+
+    If Not c.IsValid(msg) Then
+        MsgBox msg, vbExclamation, APP_NAME
+        Exit Sub
+    End If
+
     Contacts.Add c
-    lstAgenda.AddItem c.nombre & " | " & c.email & " | " & IIf(l >= 0, Join(tel, " / "), "-")
-    MsgBox "Se Agrego Correctamente", vbInformation
-    'Exit Sub
-error:
-    MsgBox "Error al Agregar (" & Err.Number & "): " & Err.Description, vbCritical, APP_NAME
-    
+    lstAgenda.AddItem c.nombre & " | " & c.email & " | " & IIf(UBound(tel) >= 0, Join(tel, " / "), "-")
+
+    Debug.Print "Agregado: "; c.nombre; "  Total="; Contacts.Count
+    LimpiarForm
+    Exit Sub
+EH:
+    MsgBox "Error al agregar (" & Err.Number & "): " & Err.Description, vbCritical, APP_NAME
 End Sub
 
-Private Sub Form_Load()
+Private Sub LimpiarForm()
+    txtNombre.Text = ""
+    txtEmail.Text = ""
+    Dim i As Integer
+    For i = 0 To 2
+        txtTelefono(i).Text = ""
+    Next
+    txtNombre.SetFocus
+End Sub
 
-    Set Contacts = New Collection
+Private Sub txtTelefono_KeyPress(Index As Integer, KeyAscii As Integer)
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> vbKeyBack Then
+        KeyAscii = 0
+    End If
+End Sub
 
+Private Sub txtTelefono_Change(Index As Integer)
+    Dim t As String, cur As Long
+    cur = txtTelefono(Index).SelStart
+    t = OnlyDigits(txtTelefono(Index).Text)
+    txtTelefono(Index).Text = t
+    txtTelefono(Index).SelStart = cur
+End Sub
+
+Private Sub btnExportarCSV_Click(Index As Integer)
+    Dim ruta As String, ok As Boolean
+
+    On Error Resume Next
+
+    Dim cdl As Object
+    Set cdl = CreateObject("MSComDlg.CommonDialog")
+
+    If Not cdl Is Nothing Then
+        cdl.CancelError = True
+        cdl.DialogTitle = "Exportar agenda"
+        cdl.Filter = "CSV (*.csv)|*.csv"
+        cdl.FileName = "agenda.csv"
+        cdl.ShowSave
+        If Err.Number = 32755 Then Exit Sub
+        ruta = cdl.FileName
+        Err.Clear
+    End If
+    On Error GoTo 0
+
+    If Len(ruta) = 0 Then ruta = App.path & "\agenda.csv"
+
+    ok = SaveContactsCSV(ruta)
+    If ok Then MsgBox "Exportado a: " & ruta, vbInformation, APP_NAME
+End Sub
+
+Private Sub btnClose_Click(Index As Integer)
+    Unload Me
 End Sub
 
