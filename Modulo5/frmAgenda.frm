@@ -13,6 +13,7 @@ Begin VB.Form frmAgenda
       Height          =   375
       Index           =   2
       Left            =   6480
+      MaxLength       =   10
       TabIndex        =   13
       Top             =   1560
       Width           =   2055
@@ -21,6 +22,7 @@ Begin VB.Form frmAgenda
       Height          =   375
       Index           =   1
       Left            =   6480
+      MaxLength       =   10
       TabIndex        =   12
       Top             =   1080
       Width           =   2055
@@ -61,6 +63,7 @@ Begin VB.Form frmAgenda
             Height          =   375
             Index           =   0
             Left            =   1200
+            MaxLength       =   10
             TabIndex        =   10
             Top             =   240
             Width           =   2055

@@ -22,6 +22,7 @@ Public Function OnlyDigits(ByVal s As String) As String
     OnlyDigits = out
 End Function
 
+
 ' ---------- Persistencia CSV con manejo de errores ----------
 Public Function SaveContactsCSV(ByVal path As String) As Boolean
     On Error GoTo EH
