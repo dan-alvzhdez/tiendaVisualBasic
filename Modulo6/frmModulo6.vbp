@@ -1,10 +1,6 @@
 Type=Exe
-Form=frmModulo6.frm
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
-Object={FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}#1.1#0; COMCT232.OCX
-Object={86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCT2.OCX
-Object={38911DA0-E448-11D0-84A3-00DD01104159}#1.1#0; COMCT332.OCX
+Form=..\..\..\27102025\Modulo8\Form1.frm
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
 IconForm="Form1"
 Startup="Form1"
 Command32=""
